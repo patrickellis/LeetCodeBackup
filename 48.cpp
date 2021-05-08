@@ -1,17 +1,15 @@
 class Solution {
 public:
-    int findMaxConsecutiveOnes(vector<int>& nums) {
-        int count=0;
-        int max = 0;
-        for(int i=0;i<nums.size();i++){
-            if(nums[i]==1){
-                count++;
-                if(count > max) max = count;
-            }
-            else{
-                count = 0;
+    void rotate(vector<vector<int>>& matrix) {
+        int N = matrix.size();
+        for(int i=0;i<N;i++){
+            for(int j=0;j<i;j++){
+                swap(matrix[i][j], matrix[j][i]);    
             }
         }
-        return max;
+        for(auto& row:matrix){
+            reverse(row.begin(), row.end());
+        }
+        
     }
 };
