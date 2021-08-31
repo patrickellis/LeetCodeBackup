@@ -1,21 +1,19 @@
 class Solution {
 public:
     int countPrimes(int n) {
-        if(n<=2) return 0;
-    
-        bool isPrime[n+1];
-        memset(isPrime,true,sizeof(isPrime));
-        int res = 1; // automatically count 2 as prime
-        int upperLim = sqrt(n);
-        for(int i=3;i<n;i+=2){
-            if(isPrime[i]){
-                ++res;
-                if(i > upperLim) continue;
-                for(int j=i*i;j<=n;j+=i){
-                    isPrime[j]=false;
-                }
-            }    
+        int lp[n+1];
+        memset(lp, 0, sizeof(lp));
+        vector<int> pr;
+        
+        for(int i = 2; i < n; ++i){
+            if(lp[i]==0){
+                lp[i] = i;
+                pr.push_back(i);
+            }
+            for(int j = 0; j < pr.size() && pr[j] <= lp[i] && i * pr[j] <= n; ++j)
+                lp[i * pr[j]] = pr[j];            
         }
-        return res;
+        return pr.size();
     }
+    
 };
