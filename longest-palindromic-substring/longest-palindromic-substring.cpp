@@ -1,31 +1,27 @@
 class Solution {
 public:
-    string longestPalindrome(string s) {
-        int sz = s.size();
-        if(sz == 1) return s;
-        
-        // dp array -> dp[i][j] = substring (i,j) is a palindrome
-        vector<vector<int>> dp(sz, vector<int>(sz,false));
-        
-        for(int i = 0; i < sz; ++i)
-            dp[i][i] = true; // all substrings (i,i) are palindromic
-        
-        int maxLen = 0;
-        string result = "";
-        result += s[0];
-        
-        for(int i = sz-1; i >= 0; --i){
-            for(int j = i + 1; j < sz; ++j){
-                if(j - i == 1 || dp[i+1][j-1]){
-                    if(s[i] == s[j]){
-                        dp[i][j] = true;
-                        if(j - i + 1 > result.size()) 
-                            result = s.substr(i,j - i + 1);
-                    }
-                }    
-                
-            }    
+string longestPalindrome(string s) {
+    if(s.size() < 2) return s;
+    int max_len = 0;
+    int start_idx = 0;
+    int i = 0;
+    while(i < s.size()) {
+        int r_ptr = i; 
+        int l_ptr = i;
+        //find the middle of a palindrome
+        while(r_ptr < s.size()-1 && s[r_ptr] == s[r_ptr + 1]) r_ptr++;
+        i = r_ptr+1;
+        //expand from the middle out
+        while(r_ptr < s.size()-1 && l_ptr > 0 && s[r_ptr + 1] == s[l_ptr - 1]) {
+            r_ptr++;
+            l_ptr--;
         }
-        return result;
+        int new_len = r_ptr - l_ptr + 1;
+        if(new_len > max_len) {
+            start_idx = l_ptr;
+            max_len = new_len;
+        }
     }
+    return s.substr(start_idx, max_len);
+}
 };
