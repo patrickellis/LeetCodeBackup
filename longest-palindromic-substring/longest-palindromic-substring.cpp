@@ -1,27 +1,28 @@
 class Solution {
 public:
-string longestPalindrome(string s) {
-    if(s.size() < 2) return s;
-    int max_len = 0;
-    int start_idx = 0;
-    int i = 0;
-    while(i < s.size()) {
-        int r_ptr = i; 
-        int l_ptr = i;
-        //find the middle of a palindrome
-        while(r_ptr < s.size()-1 && s[r_ptr] == s[r_ptr + 1]) r_ptr++;
-        i = r_ptr+1;
-        //expand from the middle out
-        while(r_ptr < s.size()-1 && l_ptr > 0 && s[r_ptr + 1] == s[l_ptr - 1]) {
-            r_ptr++;
-            l_ptr--;
+    string longestPalindrome(string s) {
+        if(s.size() < 2) return s;
+        int currMax = 0;
+        int l_ind = 0;
+        int r_ind = 0;
+        
+        int i = 0, n = s.size();
+        while(i < n){
+            int l = i, r = i;
+            while(r < n && s[r] == s[r+1]) r++;
+            i = r + 1; // skip duplicates;
+            while(l > 0 && r < n - 1 && s[l-1] == s[r+1])
+            {
+                l--;
+                r++;                
+            }
+            int currLen = r - l + 1;
+            if(currLen > currMax){
+                currMax = currLen;
+                l_ind = l;
+                r_ind = r;
+            }
         }
-        int new_len = r_ptr - l_ptr + 1;
-        if(new_len > max_len) {
-            start_idx = l_ptr;
-            max_len = new_len;
-        }
+        return s.substr(l_ind, r_ind - l_ind + 1);
     }
-    return s.substr(start_idx, max_len);
-}
 };
