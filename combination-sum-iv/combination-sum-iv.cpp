@@ -1,22 +1,22 @@
 class Solution {
 public:
-    int memo[1001];
-    
-    int solve(vector<int>& nums, vector<int> combo, int sum, int target){        
-        if(sum > target) return 0;
-        if(sum == target) return 1;
-        if(memo[sum] != -1) return memo[sum];
-        int res = 0;
-        for(auto n:nums){
-            combo.push_back(n);
-            res += solve(nums, combo, sum+n, target);
-            combo.pop_back();
-        }
-        memo[sum] = res;
-        return res;
-    }
     int combinationSum4(vector<int>& nums, int target) {
-        memset(memo, -1, sizeof(memo));
-        return solve(nums, {}, 0, target);
+        long dp[target + 1];
+		long tmp;
+		dp[0] = 1;
+		sort(nums.begin(), nums.end());
+		for (int i = 1; i <= target; i++) {
+			dp[i] = 0;
+			for (int num: nums) {
+				if (i < num) break;
+				tmp = dp[i] + dp[i-num];
+				if (tmp >= INT_MAX) {
+					dp[i] = 0;
+					break;
+				}
+				dp[i] = tmp;
+			}
+		}
+		return (int) dp[target];
     }
 };
