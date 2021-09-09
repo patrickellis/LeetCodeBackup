@@ -1,35 +1,33 @@
 class Solution {
 public:
-    int numIslands(vector<vector<char>>& grid) {
-        int result = 0;
-        // row and column counts
-        int m = grid.size(), n = grid.back().size();
-        // queue of currently considered grid squares for DFS
-        queue<pair<int,int>> q;
+    void DFS(vector<vector<char>>& grid, int i,int j)
+    {
+        if(i < 0 || j < 0 || i>= grid.size() || j >= grid[0].size() || grid[i][j]=='0')
+        {
+            return;
+        }
+        grid[i][j]='0';
         
-        for(int j = 0; j < m; ++j){
-            for(int i = 0; i < n; ++i){
-                if(grid[j][i] == '1'){
-                    q.push({j,i}); // push (row,column) to queue i.e. y,x                                    
-                    // conduct DFS on grid[j][i]
-                    while(!q.empty()){
-                        auto top = q.front(); 
-                        q.pop();
-                        int y = top.first, x = top.second;
-                        
-                        if(y < 0 || y >= m || x < 0 || x >= n || grid[y][x] == '0')
-                            continue; // if x or y out of bounds, or not island - pop and continue
-                        
-                        grid[y][x] = '0';
-                        q.push({y+1, x});
-                        q.push({y, x+1});
-                        q.push({y, x-1});
-                        q.push({y-1, x});
-                    }
-                    ++result;
-                } 
+        DFS(grid,i-1,j);
+        DFS(grid,i+1,j);
+        DFS(grid,i,j-1);
+        DFS(grid,i,j+1);
+    }
+    
+    int numIslands(vector<vector<char>>& grid) {
+        
+        int num = 0;
+        for(int i = 0 ; i < grid.size() ; i++)
+        {
+            for(int j = 0 ; j < grid[0].size() ; j++)
+            {
+                if(grid[i][j] == '1')
+                {
+                    num++;
+                    DFS(grid,i,j);
+                }
             }
         }
-        return result;
+        return num;
     }
 };
