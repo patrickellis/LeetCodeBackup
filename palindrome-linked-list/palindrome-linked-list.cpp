@@ -11,29 +11,29 @@
 class Solution {
 public:
     bool isPalindrome(ListNode* head) {
-        stack<int> s;
         int n = 0;
         ListNode* temp = head;
         while(temp){
             temp = temp->next;
             ++n;
         }
-        int mid = n/2;
-        bool oddCount = (n % 2 == 0)?false:true;
-        for(int i = 0; i < n; ++i){
-            if(oddCount && i == mid){
-                head = head->next;
-                continue;
-            }
-            if(i < mid){
-                s.push(head->val);
-            }
-            else{
-                if(head->val != s.top())
-                    return false;
-                s.pop();
-            }
-            head = head->next;
+        // reset temp
+        temp = head;
+        ListNode* prev = nullptr, *curr = head;
+        // create reversed linked list for first n/2 elements 
+        for(int i = 0; i < n/2; ++i){
+            curr = curr->next;
+            temp->next = prev;
+            prev = temp;
+            temp = curr;
+        }
+        if(n % 2 == 1)
+            curr = curr->next;
+        while(curr != nullptr && prev != nullptr){
+            if(curr->val != prev->val) 
+                return false;
+            curr = curr->next;
+            prev = prev->next;
         }
         return true;
     }
