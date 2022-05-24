@@ -7,9 +7,9 @@ class Solution:
         count = 0
         res = 0
         for index,char in enumerate(s):
+            count=count+1
             if char not in seen:                
-                seen[char] = index
-                count=count+1
+                seen[char] = index                
             else:
                 # when we hit a seen character
                 # we have two valid strings:
@@ -20,7 +20,7 @@ class Solution:
                 # and update count with the second one
                 # and continue
                 diff = index - seen[char]                                
-                count = min(diff,count+1)
+                count = min(diff,count)
                 seen[char] = index
             res = max(res,count)
         return res
