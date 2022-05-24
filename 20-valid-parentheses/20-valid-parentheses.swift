@@ -12,29 +12,19 @@ class Solution {
     }
     
     func isValid(_ s: String) -> Bool {
-        // stack - push (, {, and [
-        // pop ),}, and ]
-        // if popping, we check that the complementary
-        // brace is present on top of the stack
-        // otherwise return false
         if(s.count % 2 == 1){ return false }
         var stack = [Character]()
         for brace in s {
-            if(["(","[","{"].contains(brace)){
-                print(brace, " found in opening braces list")
+            if(["(","[","{"].contains(brace)){                
                 stack.append(brace)
             }
             else{
                 var complement = getComplement(brace)
-                if(stack.count == 0 || stack[stack.count-1] != complement){
-                    print("triggered this condition for element ", brace, " with complement ", complement)
+                if(stack.count == 0 || stack[stack.count-1] != complement){                    
                     return false
                 }
                 stack.removeLast()
             }
-        }
-        for char in stack{
-            print(char)    
         }
         return stack.count == 0;
     }
