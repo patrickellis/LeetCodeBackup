@@ -14,8 +14,7 @@ class Solution:
                 continue
             while(l > 0 and r < n - 1 and s[l-1] == s[r+1]):
                 l-=1
-                r+=1
-            print("loop i: %s, l: %s, r: %s" % (i,l,r))
+                r+=1            
             if(r - l + 1 > res):
                 res = r - l + 1
                 res_string = s[l:r+1]            
