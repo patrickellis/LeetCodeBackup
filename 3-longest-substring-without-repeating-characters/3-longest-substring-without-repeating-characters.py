@@ -7,8 +7,7 @@ class Solution:
         count = 0
         res = 0
         for index,char in enumerate(s):
-            if char not in seen:
-                print("%s not in seen" % char)
+            if char not in seen:                
                 seen[char] = index
                 count=count+1
             else:
