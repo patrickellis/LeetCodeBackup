@@ -9,6 +9,7 @@ class Solution:
             r = i
             while(r < n-1 and s[r] == s[r+1]): 
                 r+=1
+            i=r+1
             if(s[r]!=s[l]):
                 continue
             while(l > 0 and r < n - 1 and s[l-1] == s[r+1]):
@@ -17,9 +18,7 @@ class Solution:
             print("loop i: %s, l: %s, r: %s" % (i,l,r))
             if(r - l + 1 > res):
                 res = r - l + 1
-                res_string = s[l:r+1]
-            
-            i+=1
+                res_string = s[l:r+1]            
         print(res)
         return res_string
             
