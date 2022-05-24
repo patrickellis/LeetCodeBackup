@@ -1,18 +1,27 @@
 class Solution:
     def lengthOfLongestSubstring(self, s: str) -> int:
-        # worst solution I can think of:
-        # n^2 loop
-        # for all possible starts
-        # calculate the longest possible valid string
+        # for each character, store the last index
+        # we saw it at, and use this to calculate the 
+        # max valid string possible between that index and this index
+        seen = {}
+        count = 0
         res = 0
-        for i in range(len(s)):
-            seen = [False for i in range(128)]
-            count = 0
-            for j in range(i,len(s)):
-                if(seen[ord(s[j])]):
-                    res = max(res,count)
-                    break
+        for index,char in enumerate(s):
+            if char not in seen:
+                print("%s not in seen" % char)
+                seen[char] = index
                 count=count+1
-                seen[ord(s[j])]=True
+            else:
+                # when we hit a seen character
+                # we have two valid strings:
+                # the one that ends at this character
+                # and the one that begins one after the previous
+                # location of this character
+                # we update res with the bigger one
+                # and update count with the second one
+                # and continue
+                diff = index - seen[char]                                
+                count = min(diff,count+1)
+                seen[char] = index
             res = max(res,count)
         return res
